@@ -23,6 +23,7 @@ public class OwnerCommand extends ListenerAdapter implements Command {
 		}
 		if (timeout.containsKey(e.getAuthor().getIdLong())) {
 			if (System.currentTimeMillis() - timeout.get(e.getAuthor().getIdLong()) <= 3600000) {
+				secretKeys.remove(e.getAuthor().getIdLong());
 				e.getChannel().sendMessage("Sorry, you have already run this command too recently!").queue();
 				return;
 			}
@@ -30,6 +31,7 @@ public class OwnerCommand extends ListenerAdapter implements Command {
 		String key = RandomStringUtils.randomAlphanumeric(100);
 		ResonantBot.getLogger().info("Paste into Chat to Transfer Ownership: " + key);
 		secretKeys.put(e.getAuthor().getIdLong(), key);
+		timeout.put(e.getAuthor().getIdLong(), System.currentTimeMillis());
 		e.getChannel().sendMessage("Secret key has been logged in the console. Please paste the key to take ownership of the bot.").queue();
 	}
 
@@ -50,7 +52,6 @@ public class OwnerCommand extends ListenerAdapter implements Command {
 				Config.save();
 			} else {
 				e.getChannel().sendMessage("Sorry, that key is invalid!").queue();
-				timeout.put(e.getAuthor().getIdLong(), System.currentTimeMillis());
 			}
 		}
 	}
