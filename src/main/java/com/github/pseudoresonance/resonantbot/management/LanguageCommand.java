@@ -1,5 +1,7 @@
 package com.github.pseudoresonance.resonantbot.management;
 
+import java.util.regex.Pattern;
+
 import com.github.pseudoresonance.resonantbot.Config;
 import com.github.pseudoresonance.resonantbot.Language;
 import com.github.pseudoresonance.resonantbot.api.Command;
@@ -7,13 +9,16 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class LanguageCommand implements Command {
 
+	private static final Pattern pattern = Pattern.compile("[^A-Za-z0-9-]");
+
 	public void onCommand(MessageReceivedEvent e, String command, String[] args) {
 		if (e.getAuthor().getIdLong() == Config.getOwner()) {
 			if (args.length >= 1) {
 				if (args[0].equalsIgnoreCase("reset")) {
 					if (args.length >= 2) {
-						Language.resetLang(args[1]);
-						e.getChannel().sendMessage("`" + args[1] + "` language files have been reset!").queue();
+						String replaced = pattern.matcher(args[1]).replaceAll("").substring(0, 5);
+						Language.resetLang(replaced);
+						e.getChannel().sendMessage("`" + replaced + "` language files have been reset!").queue();
 						return;
 					}
 					Language.updateLang(Config.getLang(), true);
@@ -21,14 +26,15 @@ public class LanguageCommand implements Command {
 					return;
 				} else if (args[0].equalsIgnoreCase("update")) {
 					if (args.length >= 2) {
-						Language.updateGuildLang(args[1]);
-						e.getChannel().sendMessage("`" + args[1] + "` language files have been updated!").queue();
+						String replaced = pattern.matcher(args[1]).replaceAll("").substring(0, 5);
+						Language.updateGuildLang(replaced);
+						e.getChannel().sendMessage("`" + replaced + "` language files have been updated!").queue();
 						return;
 					}
 					e.getChannel().sendMessage("Please specify a language to update!").queue();
 					return;
 				}
-				Config.setLang(args[0]);
+				Config.setLang(pattern.matcher(args[0]).replaceAll("").substring(0, 5));
 				Language.updateLang(Config.getLang());
 				e.getChannel().sendMessage("Set global bot language to `" + Config.getLang() + "`").queue();
 				return;
