@@ -32,7 +32,7 @@ public class ReloadCommand implements Command {
 						if (m != null) {
 							reloaded = true;
 							m = null;
-							PluginManager.reload(f, e.getChannel());
+							PluginManager.reload(f, e.getChannel(), e.getGuild().getIdLong());
 							return;
 						}
 					} else {
@@ -45,7 +45,7 @@ public class ReloadCommand implements Command {
 						}
 						if (f != null) {
 							reloaded = true;
-							PluginManager.reload(f, e.getChannel());
+							PluginManager.reload(f, e.getChannel(), e.getGuild().getIdLong());
 							return;
 						}
 					}
@@ -60,7 +60,7 @@ public class ReloadCommand implements Command {
 		}
 	}
 	
-	public String getDesc() {
+	public String getDesc(long guildID) {
 		return "Reloads specified plugin";
 	}
 

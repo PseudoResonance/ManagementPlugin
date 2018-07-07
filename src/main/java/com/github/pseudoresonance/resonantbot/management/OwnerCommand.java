@@ -56,7 +56,7 @@ public class OwnerCommand extends ListenerAdapter implements Command {
 		}
 	}
 	
-	public String getDesc() {
+	public String getDesc(long guildID) {
 		return "Transfers bot ownership";
 	}
 

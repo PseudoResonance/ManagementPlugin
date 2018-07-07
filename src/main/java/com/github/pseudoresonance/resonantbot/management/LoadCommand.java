@@ -19,7 +19,7 @@ public class LoadCommand implements Command {
 						name += ".jar";
 					File f = new File(PluginManager.getDir(), name);
 					if (f.isFile()) {
-						String result = PluginManager.load(f, true);
+						String result = PluginManager.load(f, true, e.getGuild().getIdLong());
 						e.getChannel().sendMessage(result).queue();
 					} else
 						e.getChannel().sendMessage("Unknown plugin jar: " + name + " Please choose one from " + MessageListener.getPrefix(e.getGuild()) + "pluginfiles!").queue();
@@ -32,7 +32,7 @@ public class LoadCommand implements Command {
 		}
 	}
 	
-	public String getDesc() {
+	public String getDesc(long guildID) {
 		return "Loads specified plugin jar";
 	}
 

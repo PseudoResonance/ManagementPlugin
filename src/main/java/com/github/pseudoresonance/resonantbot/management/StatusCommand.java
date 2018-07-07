@@ -59,7 +59,7 @@ public class StatusCommand implements Command {
 		}
 	}
 	
-	public String getDesc() {
+	public String getDesc(long guildID) {
 		return "Changes bot status";
 	}
 

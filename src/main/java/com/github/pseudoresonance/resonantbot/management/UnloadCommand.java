@@ -70,7 +70,7 @@ public class UnloadCommand implements Command {
 		}
 	}
 	
-	public String getDesc() {
+	public String getDesc(long guildID) {
 		return "Unloads specified plugin";
 	}
 

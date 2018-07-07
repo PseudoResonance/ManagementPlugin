@@ -25,7 +25,7 @@ public class PluginsCommand implements Command {
 		}
 	}
 	
-	public String getDesc() {
+	public String getDesc(long guildID) {
 		return "Loads specified plugin jar";
 	}
 
