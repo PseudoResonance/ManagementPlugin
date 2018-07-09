@@ -22,9 +22,15 @@ public class GuildLanguageCommand implements Command {
 					e.getChannel().sendMessage("Guild language has been reset to `" + Language.getGuildLang(e.getGuild().getIdLong()) + "`!").queue();
 					return;
 				}
-				Language.setGuildLang(e.getGuild().getIdLong(), pattern.matcher(args[0]).replaceAll("").substring(0, 5));
-				e.getChannel().sendMessage("Set guild language to `" + Language.getGuildLang(e.getGuild().getIdLong()) + "`").queue();
-				return;
+				String replaced = pattern.matcher(args[0]).replaceAll("").substring(0, 5);
+				if (replaced.length() > 0) {
+					Language.setGuildLang(e.getGuild().getIdLong(), replaced);
+					e.getChannel().sendMessage("Set guild language to `" + Language.getGuildLang(e.getGuild().getIdLong()) + "`").queue();
+					return;
+				} else {
+					e.getChannel().sendMessage("Please specify a valid language! http://www.lingoes.net/en/translator/langcode.htm").queue();
+					return;
+				}
 			}
 		}
 		e.getChannel().sendMessage("The current guild language is `" + Language.getGuildLang(e.getGuild().getIdLong()) + "`").queue();

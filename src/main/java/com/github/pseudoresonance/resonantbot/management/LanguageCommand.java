@@ -17,9 +17,14 @@ public class LanguageCommand implements Command {
 				if (args[0].equalsIgnoreCase("reset")) {
 					if (args.length >= 2) {
 						String replaced = pattern.matcher(args[1]).replaceAll("").substring(0, 5);
-						Language.resetLang(replaced);
-						e.getChannel().sendMessage("`" + replaced + "` language files have been reset!").queue();
-						return;
+						if (replaced.length() > 0) {
+							Language.resetLang(replaced);
+							e.getChannel().sendMessage("`" + replaced + "` language files have been reset!").queue();
+							return;
+						} else {
+							e.getChannel().sendMessage("Please specify a valid language! http://www.lingoes.net/en/translator/langcode.htm").queue();
+							return;
+						}
 					}
 					Language.updateLang(Config.getLang(), true);
 					e.getChannel().sendMessage("`" + Config.getLang() + "` language files have been reset!").queue();
@@ -27,17 +32,28 @@ public class LanguageCommand implements Command {
 				} else if (args[0].equalsIgnoreCase("update")) {
 					if (args.length >= 2) {
 						String replaced = pattern.matcher(args[1]).replaceAll("").substring(0, 5);
-						Language.updateGuildLang(replaced);
-						e.getChannel().sendMessage("`" + replaced + "` language files have been updated!").queue();
-						return;
+						if (replaced.length() > 0) {
+							Language.updateGuildLang(replaced);
+							e.getChannel().sendMessage("`" + replaced + "` language files have been updated!").queue();
+							return;
+						} else {
+							e.getChannel().sendMessage("Please specify a valid language! http://www.lingoes.net/en/translator/langcode.htm").queue();
+							return;
+						}
 					}
-					e.getChannel().sendMessage("Please specify a language to update!").queue();
+					e.getChannel().sendMessage("Please specify a valid language! http://www.lingoes.net/en/translator/langcode.htm").queue();
 					return;
 				}
-				Config.setLang(pattern.matcher(args[0]).replaceAll("").substring(0, 5));
-				Language.updateLang(Config.getLang());
-				e.getChannel().sendMessage("Set global bot language to `" + Config.getLang() + "`").queue();
-				return;
+				String replaced = pattern.matcher(args[0]).replaceAll("").substring(0, 5);
+				if (replaced.length() > 0) {
+					Config.setLang(replaced);
+					Language.updateLang(Config.getLang());
+					e.getChannel().sendMessage("Set global bot language to `" + Config.getLang() + "`").queue();
+					return;
+				} else {
+					e.getChannel().sendMessage("Please specify a valid language! http://www.lingoes.net/en/translator/langcode.htm").queue();
+					return;
+				}
 			}
 		}
 		e.getChannel().sendMessage("The current global language is `" + Config.getLang() + "`").queue();
