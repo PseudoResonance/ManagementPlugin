@@ -4,11 +4,13 @@ import java.io.File;
 import java.util.Set;
 
 import com.github.pseudoresonance.resonantbot.Config;
+import com.github.pseudoresonance.resonantbot.Language;
 import com.github.pseudoresonance.resonantbot.PluginManager;
 import com.github.pseudoresonance.resonantbot.api.Command;
 import com.github.pseudoresonance.resonantbot.api.Plugin;
 import com.github.pseudoresonance.resonantbot.listeners.MessageListener;
 
+import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 public class ReloadCommand implements Command {
@@ -26,13 +28,18 @@ public class ReloadCommand implements Command {
 						input = args[i];
 				}
 				if (!input.equals("")) {
+					Long id = 0L;
+					if (e.getChannelType() == ChannelType.PRIVATE)
+						id = e.getPrivateChannel().getIdLong();
+					else
+						id = e.getGuild().getIdLong();
 					if (input.endsWith(".jar")) {
 						File f = new File(PluginManager.getDir(), input);
 						Plugin m = PluginManager.getPlugin(f);
 						if (m != null) {
 							reloaded = true;
 							m = null;
-							PluginManager.reload(f, e.getChannel(), e.getGuild().getIdLong());
+							PluginManager.reload(f, e.getChannel(), id);
 							return;
 						}
 					} else {
@@ -45,23 +52,23 @@ public class ReloadCommand implements Command {
 						}
 						if (f != null) {
 							reloaded = true;
-							PluginManager.reload(f, e.getChannel(), e.getGuild().getIdLong());
+							PluginManager.reload(f, e.getChannel(), id);
 							return;
 						}
 					}
 					if (!reloaded)
-						e.getChannel().sendMessage("Unknown plugin! Please choose one from " + MessageListener.getPrefix(e.getGuild()) + "plugins!").queue();
+						e.getChannel().sendMessage(Language.getMessage(e, "management.unknownPlugin", MessageListener.getPrefix(e) + "plugins")).queue();
 				} else {
-					e.getChannel().sendMessage("Please add a plugin to reload! Choose one from " + MessageListener.getPrefix(e.getGuild()) + "plugins!").queue();
+					e.getChannel().sendMessage(Language.getMessage(e, "management.addPluginReload", MessageListener.getPrefix(e) + "plugins")).queue();
 				}
 			} else {
-				e.getChannel().sendMessage("Please add a plugin to reload! Choose one from " + MessageListener.getPrefix(e.getGuild()) + "plugins!").queue();
+				e.getChannel().sendMessage(Language.getMessage(e, "management.addPluginReload", MessageListener.getPrefix(e) + "plugins")).queue();
 			}
 		}
 	}
 	
-	public String getDesc(long guildID) {
-		return "Reloads specified plugin";
+	public String getDesc(long id) {
+		return Language.getMessage(id, "management.reloadCommandDescription");
 	}
 
 	public boolean isHidden() {

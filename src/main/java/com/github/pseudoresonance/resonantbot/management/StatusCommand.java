@@ -3,6 +3,7 @@ package com.github.pseudoresonance.resonantbot.management;
 import java.util.regex.Pattern;
 
 import com.github.pseudoresonance.resonantbot.Config;
+import com.github.pseudoresonance.resonantbot.Language;
 import com.github.pseudoresonance.resonantbot.api.Command;
 
 import net.dv8tion.jda.core.entities.Game;
@@ -31,36 +32,41 @@ public class StatusCommand implements Command {
 								if (Game.isValidStreamingUrl(split[1])) {
 									Config.setStatus(Game.GameType.STREAMING, s);
 									Config.updateStatus();
-									e.getChannel().sendMessage("Set status to streaming: " + split[0]).queue();
+									e.getChannel().sendMessage(Language.getMessage(e, "management.setStatusStreaming", split[0])).queue();
 								} else {
-									e.getChannel().sendMessage("Please add a valid stream name and url separated by a `|`!").queue();
+									e.getChannel().sendMessage(Language.getMessage(e, "management.validStreamNameUrl")).queue();
 								}
 							} else {
-								e.getChannel().sendMessage("Please add a stream name and url separated by a `|`!").queue();
+								e.getChannel().sendMessage(Language.getMessage(e, "management.addStreamNameUrl")).queue();
 							}
 						} else {
 							Config.setStatus(type, s);
 							Config.updateStatus();
-							e.getChannel().sendMessage("Set status to " + type.toString().toLowerCase() + ": " + s).queue();
+							if (type == Game.GameType.DEFAULT)
+								e.getChannel().sendMessage(Language.getMessage(e, "management.setStatusPlaying", s)).queue();
+							else if (type == Game.GameType.LISTENING)
+								e.getChannel().sendMessage(Language.getMessage(e, "management.setStatusListening", s)).queue();
+							else if (type == Game.GameType.WATCHING)
+								e.getChannel().sendMessage(Language.getMessage(e, "management.setStatusWatching", s)).queue();
 						}
 					} catch (IllegalArgumentException ex) {
-						e.getChannel().sendMessage("Please use a valid status type: `DEFAULT`, `LISTENING`, `STREAMING` or `WATCHING`!").queue();
+						e.getChannel().sendMessage(Language.getMessage(e, "management.validStatusType")).queue();
 					}
 				} else {
 					if (args[0].equalsIgnoreCase("STREAMING")) {
-						e.getChannel().sendMessage("Please add a stream name and url!").queue();
+						e.getChannel().sendMessage(Language.getMessage(e, "management.addStreamNameUrl")).queue();
 					} else {
-						e.getChannel().sendMessage("Please add a message to set the status to!").queue();
+						e.getChannel().sendMessage(Language.getMessage(e, "management.addStatusMessage")).queue();
 					}
 				}
 			} else {
-				e.getChannel().sendMessage("Please add a status type: `DEFAULT`, `LISTENING`, `STREAMING` or `WATCHING`!").queue();
+				e.getChannel().sendMessage(Language.getMessage(e, "management.validStatusType")).queue();
 			}
 		}
 	}
 	
-	public String getDesc(long guildID) {
-		return "Changes bot status";
+	public String getDesc(long id) {
+		return Language.getMessage(id, "management.statusCommandDescription");
 	}
 
 	public boolean isHidden() {

@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Set;
 
 import com.github.pseudoresonance.resonantbot.Config;
+import com.github.pseudoresonance.resonantbot.Language;
 import com.github.pseudoresonance.resonantbot.PluginManager;
 import com.github.pseudoresonance.resonantbot.api.Command;
 import com.github.pseudoresonance.resonantbot.api.Plugin;
@@ -35,9 +36,9 @@ public class UnloadCommand implements Command {
 							m = null;
 							boolean result = PluginManager.unload(name);
 							if (result)
-								e.getChannel().sendMessage("Unloaded plugin jar: " + f.getName()).queue();
+								e.getChannel().sendMessage(Language.getMessage(e, "management.unloadedJar", f.getName())).queue();
 							else
-								e.getChannel().sendMessage("Failed to unload plugin jar: " + f.getName()).queue();
+								e.getChannel().sendMessage(Language.getMessage(e, "management.failedUnload", f.getName())).queue();
 						}
 					} else {
 						Set<Plugin> plugins = PluginManager.getPlugins();
@@ -54,24 +55,24 @@ public class UnloadCommand implements Command {
 							unload = null;
 							boolean result = PluginManager.unload(name);
 							if (result)
-								e.getChannel().sendMessage("Unloaded plugin jar: " + f.getName()).queue();
+								e.getChannel().sendMessage(Language.getMessage(e, "management.unloadedJar", f.getName())).queue();
 							else
-								e.getChannel().sendMessage("Failed to unload plugin jar: " + f.getName()).queue();
+								e.getChannel().sendMessage(Language.getMessage(e, "management.failedUnload", f.getName())).queue();
 						}
 					}
 					if (!unloaded)
-						e.getChannel().sendMessage("Unknown plugin! Please choose one from " + MessageListener.getPrefix(e.getGuild()) + "plugins or specify the jar name!").queue();
+						e.getChannel().sendMessage(Language.getMessage(e, "management.unknownPlugin", MessageListener.getPrefix(e) + "plugins")).queue();
 				} else {
-					e.getChannel().sendMessage("Please add a plugin to unload! Choose one from " + MessageListener.getPrefix(e.getGuild()) + "plugins!").queue();
+					e.getChannel().sendMessage(Language.getMessage(e, "management.addPluginUnload", MessageListener.getPrefix(e) + "plugins")).queue();
 				}
 			} else {
-				e.getChannel().sendMessage("Please add a plugin to unload! Choose one from " + MessageListener.getPrefix(e.getGuild()) + "plugins!").queue();
+				e.getChannel().sendMessage(Language.getMessage(e, "management.addPluginUnload", MessageListener.getPrefix(e) + "plugins")).queue();
 			}
 		}
 	}
 	
-	public String getDesc(long guildID) {
-		return "Unloads specified plugin";
+	public String getDesc(long id) {
+		return Language.getMessage(id, "management.unloadCommandDescription");
 	}
 
 	public boolean isHidden() {
