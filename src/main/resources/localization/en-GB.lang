@@ -3,8 +3,8 @@
 management:
   privateLanguageReset: "DM language has been reset to `{$1$}`!"
   languageReset: "Guild language has been reset to `{$1$}`!"
-  privateLanguage: "Set DM language to `{$1$}`"
-  language: "Set guild language to `{$1$}`"
+  privateLanguageSet: "Set DM language to `{$1$}`"
+  languageSet: "Set guild language to `{$1$}`"
   privateLanguage: "The current DM language is `{$1$}`"
   language: "The current guild language is `{$1$}`"
   validLanguage: "Please specify a valid language! {$1$}"
