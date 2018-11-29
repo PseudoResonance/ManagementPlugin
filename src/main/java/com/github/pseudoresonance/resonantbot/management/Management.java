@@ -18,7 +18,7 @@ public class Management extends Plugin {
 		CommandManager.registerCommand("pluginfiles", new PluginFilesCommand(), this);
 		CommandManager.registerCommand("guildprefix", new GuildPrefixCommand(), this);
 		CommandManager.registerCommand("owner", ownerCommand, this);
-		ResonantBot.getClient().addEventListener(ownerCommand);
+		ResonantBot.getJDA().addEventListener(ownerCommand);
 		CommandManager.registerCommand("language", new LanguageCommand(), this);
 		CommandManager.registerCommand("guildlanguage", new GuildLanguageCommand(), this);
 	}

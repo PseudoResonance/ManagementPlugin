@@ -5,6 +5,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 
 import com.github.pseudoresonance.resonantbot.Config;
 import com.github.pseudoresonance.resonantbot.Language;
+import com.github.pseudoresonance.resonantbot.ResonantBot;
 import com.github.pseudoresonance.resonantbot.api.Command;
 import com.github.pseudoresonance.resonantbot.listeners.MessageListener;
 
@@ -29,7 +30,7 @@ public class OwnerCommand extends ListenerAdapter implements Command {
 			}
 		}
 		String key = RandomStringUtils.randomAlphanumeric(100);
-		e.getChannel().sendMessage(Language.getMessage(e, "management.pasteIntoChat", key)).queue();
+		ResonantBot.getLogger().info(Language.getMessage(e, "management.pasteIntoChat", key));
 		secretKeys.put(e.getAuthor().getIdLong(), key);
 		timeout.put(e.getAuthor().getIdLong(), System.currentTimeMillis());
 		e.getChannel().sendMessage(Language.getMessage(e, "management.secretKeyLogged")).queue();
@@ -49,7 +50,6 @@ public class OwnerCommand extends ListenerAdapter implements Command {
 				timeout.remove(e.getAuthor().getIdLong());
 				e.getChannel().sendMessage(Language.getMessage(e, "management.newBotOwner", e.getAuthor().getAsMention(), Config.getName())).queue();
 				Config.setOwner(e.getAuthor().getIdLong());
-				Config.save();
 			} else {
 				e.getChannel().sendMessage(Language.getMessage(e, "management.invalidKey")).queue();
 			}

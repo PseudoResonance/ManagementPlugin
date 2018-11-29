@@ -47,13 +47,13 @@
 		<dependency>
 			<groupId>net.dv8tion</groupId>
 			<artifactId>JDA</artifactId>
-			<version>3.7.1_385</version>
+			<version>3.8.1_447</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.PseudoResonance</groupId>
 			<artifactId>ResonantBot</artifactId>
-			<version>0.5-SNAPSHOT</version>
+			<version>0.6-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
