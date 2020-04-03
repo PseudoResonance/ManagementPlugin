@@ -3,11 +3,11 @@ package com.github.pseudoresonance.resonantbot.management;
 import java.util.regex.Pattern;
 
 import com.github.pseudoresonance.resonantbot.Config;
-import com.github.pseudoresonance.resonantbot.Language;
 import com.github.pseudoresonance.resonantbot.api.Command;
+import com.github.pseudoresonance.resonantbot.language.LanguageManager;
 
-import net.dv8tion.jda.core.entities.Game;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class StatusCommand implements Command {
 
@@ -18,7 +18,7 @@ public class StatusCommand implements Command {
 					String s = "";
 					boolean first = true;
 					try {
-						Game.GameType type = Game.GameType.valueOf(args[0].toUpperCase());
+						Activity.ActivityType type = Activity.ActivityType.valueOf(args[0].toUpperCase());
 						for (int i = 1; i < args.length; i++) {
 							if (first) {
 								s += args[i];
@@ -26,47 +26,47 @@ public class StatusCommand implements Command {
 							} else
 								s += " " + args[i];
 						}
-						if (type == Game.GameType.STREAMING) {
+						if (type == Activity.ActivityType.STREAMING) {
 							String[] split = s.split(Pattern.quote("|"), 2);
 							if (split.length > 1) {
-								if (Game.isValidStreamingUrl(split[1])) {
-									Config.setStatus(Game.GameType.STREAMING, s);
+								if (Activity.isValidStreamingUrl(split[1])) {
+									Config.setStatus(Activity.ActivityType.STREAMING, s);
 									Config.updateStatus();
-									e.getChannel().sendMessage(Language.getMessage(e, "management.setStatusStreaming", split[0])).queue();
+									e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.setStatusStreaming", split[0])).queue();
 								} else {
-									e.getChannel().sendMessage(Language.getMessage(e, "management.validStreamNameUrl")).queue();
+									e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.validStreamNameUrl")).queue();
 								}
 							} else {
-								e.getChannel().sendMessage(Language.getMessage(e, "management.addStreamNameUrl")).queue();
+								e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.addStreamNameUrl")).queue();
 							}
 						} else {
 							Config.setStatus(type, s);
 							Config.updateStatus();
-							if (type == Game.GameType.DEFAULT)
-								e.getChannel().sendMessage(Language.getMessage(e, "management.setStatusPlaying", s)).queue();
-							else if (type == Game.GameType.LISTENING)
-								e.getChannel().sendMessage(Language.getMessage(e, "management.setStatusListening", s)).queue();
-							else if (type == Game.GameType.WATCHING)
-								e.getChannel().sendMessage(Language.getMessage(e, "management.setStatusWatching", s)).queue();
+							if (type == Activity.ActivityType.DEFAULT)
+								e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.setStatusPlaying", s)).queue();
+							else if (type == Activity.ActivityType.LISTENING)
+								e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.setStatusListening", s)).queue();
+							else if (type == Activity.ActivityType.WATCHING)
+								e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.setStatusWatching", s)).queue();
 						}
 					} catch (IllegalArgumentException ex) {
-						e.getChannel().sendMessage(Language.getMessage(e, "management.validStatusType")).queue();
+						e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.validStatusType")).queue();
 					}
 				} else {
 					if (args[0].equalsIgnoreCase("STREAMING")) {
-						e.getChannel().sendMessage(Language.getMessage(e, "management.addStreamNameUrl")).queue();
+						e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.addStreamNameUrl")).queue();
 					} else {
-						e.getChannel().sendMessage(Language.getMessage(e, "management.addStatusMessage")).queue();
+						e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.addStatusMessage")).queue();
 					}
 				}
 			} else {
-				e.getChannel().sendMessage(Language.getMessage(e, "management.validStatusType")).queue();
+				e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.validStatusType")).queue();
 			}
 		}
 	}
 	
 	public String getDesc(long id) {
-		return Language.getMessage(id, "management.statusCommandDescription");
+		return LanguageManager.getLanguage(id).getMessage("management.statusCommandDescription");
 	}
 
 	public boolean isHidden() {

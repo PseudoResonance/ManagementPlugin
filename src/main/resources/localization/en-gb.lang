@@ -13,6 +13,7 @@ management:
   addPrefix: "Please add a prefix to set!"
   validGuildPrefix: "Please specify a guild ID and prefix to set!"
   prefixSet: "The prefix for {$1$} has been set to `{$2$}`"
+  prefixReset: "The prefix for {$1$} has been reset to `{$2$}`"
   guildPrefixCommandDescription: "Sets or gets a guild prefix"
   languageFilesReset: "`{$1$}` language files have been reset!"
   languageFilesUpdated: "`{$1$}` language files have been updated!"

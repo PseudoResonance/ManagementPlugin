@@ -4,13 +4,13 @@ import java.io.File;
 import java.util.Set;
 
 import com.github.pseudoresonance.resonantbot.Config;
-import com.github.pseudoresonance.resonantbot.Language;
 import com.github.pseudoresonance.resonantbot.PluginManager;
 import com.github.pseudoresonance.resonantbot.api.Command;
 import com.github.pseudoresonance.resonantbot.api.Plugin;
+import com.github.pseudoresonance.resonantbot.language.LanguageManager;
 import com.github.pseudoresonance.resonantbot.listeners.MessageListener;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class UnloadCommand implements Command {
 
@@ -36,9 +36,9 @@ public class UnloadCommand implements Command {
 							m = null;
 							boolean result = PluginManager.unload(name);
 							if (result)
-								e.getChannel().sendMessage(Language.getMessage(e, "management.unloadedJar", f.getName())).queue();
+								e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.unloadedJar", f.getName())).queue();
 							else
-								e.getChannel().sendMessage(Language.getMessage(e, "management.failedUnload", f.getName())).queue();
+								e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.failedUnload", f.getName())).queue();
 						}
 					} else {
 						Set<Plugin> plugins = PluginManager.getPlugins();
@@ -55,24 +55,24 @@ public class UnloadCommand implements Command {
 							unload = null;
 							boolean result = PluginManager.unload(name);
 							if (result)
-								e.getChannel().sendMessage(Language.getMessage(e, "management.unloadedJar", f.getName())).queue();
+								e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.unloadedJar", f.getName())).queue();
 							else
-								e.getChannel().sendMessage(Language.getMessage(e, "management.failedUnload", f.getName())).queue();
+								e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.failedUnload", f.getName())).queue();
 						}
 					}
 					if (!unloaded)
-						e.getChannel().sendMessage(Language.getMessage(e, "management.unknownPlugin", MessageListener.getPrefix(e) + "plugins")).queue();
+						e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.unknownPlugin", MessageListener.getPrefix(e) + "plugins")).queue();
 				} else {
-					e.getChannel().sendMessage(Language.getMessage(e, "management.addPluginUnload", MessageListener.getPrefix(e) + "plugins")).queue();
+					e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.addPluginUnload", MessageListener.getPrefix(e) + "plugins")).queue();
 				}
 			} else {
-				e.getChannel().sendMessage(Language.getMessage(e, "management.addPluginUnload", MessageListener.getPrefix(e) + "plugins")).queue();
+				e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.addPluginUnload", MessageListener.getPrefix(e) + "plugins")).queue();
 			}
 		}
 	}
 	
 	public String getDesc(long id) {
-		return Language.getMessage(id, "management.unloadCommandDescription");
+		return LanguageManager.getLanguage(id).getMessage("management.unloadCommandDescription");
 	}
 
 	public boolean isHidden() {

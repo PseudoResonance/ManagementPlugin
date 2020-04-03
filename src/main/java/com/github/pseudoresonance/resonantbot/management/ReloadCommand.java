@@ -4,14 +4,14 @@ import java.io.File;
 import java.util.Set;
 
 import com.github.pseudoresonance.resonantbot.Config;
-import com.github.pseudoresonance.resonantbot.Language;
 import com.github.pseudoresonance.resonantbot.PluginManager;
 import com.github.pseudoresonance.resonantbot.api.Command;
 import com.github.pseudoresonance.resonantbot.api.Plugin;
+import com.github.pseudoresonance.resonantbot.language.LanguageManager;
 import com.github.pseudoresonance.resonantbot.listeners.MessageListener;
 
-import net.dv8tion.jda.core.entities.ChannelType;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.entities.ChannelType;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class ReloadCommand implements Command {
 
@@ -57,18 +57,18 @@ public class ReloadCommand implements Command {
 						}
 					}
 					if (!reloaded)
-						e.getChannel().sendMessage(Language.getMessage(e, "management.unknownPlugin", MessageListener.getPrefix(e) + "plugins")).queue();
+						e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.unknownPlugin", MessageListener.getPrefix(e) + "plugins")).queue();
 				} else {
-					e.getChannel().sendMessage(Language.getMessage(e, "management.addPluginReload", MessageListener.getPrefix(e) + "plugins")).queue();
+					e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.addPluginReload", MessageListener.getPrefix(e) + "plugins")).queue();
 				}
 			} else {
-				e.getChannel().sendMessage(Language.getMessage(e, "management.addPluginReload", MessageListener.getPrefix(e) + "plugins")).queue();
+				e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.addPluginReload", MessageListener.getPrefix(e) + "plugins")).queue();
 			}
 		}
 	}
 	
 	public String getDesc(long id) {
-		return Language.getMessage(id, "management.reloadCommandDescription");
+		return LanguageManager.getLanguage(id).getMessage("management.reloadCommandDescription");
 	}
 
 	public boolean isHidden() {

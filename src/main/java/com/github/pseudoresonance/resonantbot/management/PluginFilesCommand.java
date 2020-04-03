@@ -3,11 +3,11 @@ package com.github.pseudoresonance.resonantbot.management;
 import java.io.File;
 
 import com.github.pseudoresonance.resonantbot.Config;
-import com.github.pseudoresonance.resonantbot.Language;
 import com.github.pseudoresonance.resonantbot.PluginManager;
 import com.github.pseudoresonance.resonantbot.api.Command;
+import com.github.pseudoresonance.resonantbot.language.LanguageManager;
 
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
 public class PluginFilesCommand implements Command {
 
@@ -25,12 +25,12 @@ public class PluginFilesCommand implements Command {
 						output += ", " + f.getName();
 				}
 			}
-			e.getChannel().sendMessage(Language.getMessage(e, "management.pluginJars", output)).queue();
+			e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.pluginJars", output)).queue();
 		}
 	}
 	
 	public String getDesc(long id) {
-		return Language.getMessage(id, "management.pluginFilesCommandDescription");
+		return LanguageManager.getLanguage(id).getMessage("management.pluginFilesCommandDescription");
 	}
 
 	public boolean isHidden() {

@@ -13,6 +13,7 @@ management:
   addPrefix: "設定するプレフィックスを追加して下さい！"
   validGuildPrefix: "設定するギルドIDとプレフィックスを追加して下さい！"
   prefixSet: "{$1$}のプレフィックスは`{$2$}`に設定しました"
+  prefixReset: "{$1$}のプレフィックスは`{$2$}`にリセットしました"
   guildPrefixCommandDescription: "ギルドのプレフィックスを設定か入手する"
   languageFilesReset: "`{$1$}`の言語のファイルはリセットしました！"
   languageFilesUpdated: "`{$1$}`の言語のファイルはアップデートしました！"
