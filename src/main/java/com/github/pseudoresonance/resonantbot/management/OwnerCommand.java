@@ -1,6 +1,8 @@
 package com.github.pseudoresonance.resonantbot.management;
 
 import java.util.HashMap;
+import java.util.HashSet;
+
 import org.apache.commons.lang3.RandomStringUtils;
 
 import com.github.pseudoresonance.resonantbot.Config;
@@ -8,16 +10,18 @@ import com.github.pseudoresonance.resonantbot.ResonantBot;
 import com.github.pseudoresonance.resonantbot.api.Command;
 import com.github.pseudoresonance.resonantbot.language.LanguageManager;
 import com.github.pseudoresonance.resonantbot.listeners.MessageListener;
+import com.github.pseudoresonance.resonantbot.permissions.PermissionGroup;
 
+import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.hooks.EventListener;
 
-public class OwnerCommand extends ListenerAdapter implements Command {
+public class OwnerCommand extends Command implements EventListener {
 	
 	HashMap<Long, String> secretKeys = new HashMap<Long, String>();
 	HashMap<Long, Long> timeout = new HashMap<Long, Long>();
 
-	public void onCommand(MessageReceivedEvent e, String command, String[] args) {
+	public void onCommand(MessageReceivedEvent e, String command, HashSet<PermissionGroup> userPermissions, String[] args) {
 		if (Config.getOwner() == e.getAuthor().getIdLong()) {
 			e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.alreadyOwner")).queue();
 			return;
@@ -37,31 +41,26 @@ public class OwnerCommand extends ListenerAdapter implements Command {
 	}
 
 	@Override
-	public void onMessageReceived(MessageReceivedEvent e) {
-		if (e.getAuthor().isBot()) {
-			return;
-		}
-		if (secretKeys.containsKey(e.getAuthor().getIdLong())) {
-			String message = e.getMessage().getContentRaw();
-			if (message.startsWith(MessageListener.getPrefix(e) + "owner"))
+	public void onEvent(GenericEvent event) {
+		if (event instanceof MessageReceivedEvent) {
+			MessageReceivedEvent e = (MessageReceivedEvent) event;
+			if (e.getAuthor().isBot()) {
 				return;
-			String key = secretKeys.remove(e.getAuthor().getIdLong());
-			if (message.equals(key)) {
-				timeout.remove(e.getAuthor().getIdLong());
-				e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.newBotOwner", e.getAuthor().getAsMention(), Config.getName())).queue();
-				Config.setOwner(e.getAuthor().getIdLong());
-			} else {
-				e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.invalidKey")).queue();
+			}
+			if (secretKeys.containsKey(e.getAuthor().getIdLong())) {
+				String message = e.getMessage().getContentRaw();
+				if (message.startsWith(MessageListener.getPrefix(e) + "owner"))
+					return;
+				String key = secretKeys.remove(e.getAuthor().getIdLong());
+				if (message.equals(key)) {
+					timeout.remove(e.getAuthor().getIdLong());
+					e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.newBotOwner", e.getAuthor().getAsMention(), Config.getName())).queue();
+					Config.setOwner(e.getAuthor().getIdLong());
+				} else {
+					e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.invalidKey")).queue();
+				}
 			}
 		}
-	}
-	
-	public String getDesc(long id) {
-		return LanguageManager.getLanguage(id).getMessage("management.ownerCommandDescription");
-	}
-
-	public boolean isHidden() {
-		return false;
 	}
 
 }

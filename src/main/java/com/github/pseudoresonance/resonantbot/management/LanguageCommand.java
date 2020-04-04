@@ -1,15 +1,18 @@
 package com.github.pseudoresonance.resonantbot.management;
 
+import java.util.HashSet;
+
 import com.github.pseudoresonance.resonantbot.Config;
 import com.github.pseudoresonance.resonantbot.api.Command;
 import com.github.pseudoresonance.resonantbot.language.LanguageManager;
+import com.github.pseudoresonance.resonantbot.permissions.PermissionGroup;
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 
-public class LanguageCommand implements Command {
+public class LanguageCommand extends Command {
 
-	public void onCommand(MessageReceivedEvent e, String command, String[] args) {
-		if (e.getAuthor().getIdLong() == Config.getOwner()) {
+	public void onCommand(MessageReceivedEvent e, String command, HashSet<PermissionGroup> userPermissions, String[] args) {
+		if (userPermissions.contains(PermissionGroup.BOT_OWNER)) {
 			if (args.length >= 1) {
 				if (args[0].equalsIgnoreCase("reset")) {
 					if (args.length >= 2) {
@@ -47,14 +50,6 @@ public class LanguageCommand implements Command {
 			}
 		}
 		e.getChannel().sendMessage(LanguageManager.getLanguage(e).getMessage("management.globalLanguage", Config.getLang())).queue();
-	}
-
-	public String getDesc(long id) {
-		return LanguageManager.getLanguage(id).getMessage("management.languageCommandDescription");
-	}
-
-	public boolean isHidden() {
-		return false;
 	}
 
 }
