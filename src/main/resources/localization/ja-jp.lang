@@ -17,6 +17,8 @@ management:
   guildPrefixCommandDescription: "ギルドのプレフィックスを設定か入手する"
   languageFilesReset: "`{$1$}`の言語のファイルはリセットしました！"
   languageFilesUpdated: "`{$1$}`の言語のファイルはアップデートしました！"
+  languageFilesResetAll: "言語のファイルはリセットしました！"
+  languageFilesUpdatedAll: "言語のファイルはアップデートしました！"
   globalLanguageSet: "グローバル言語を`{$1$}`に設定しました"
   globalLanguage: "グローバル現在の言語は`{$1$}`です"
   languageCommandDescription: "グローバルボットの言語管理"

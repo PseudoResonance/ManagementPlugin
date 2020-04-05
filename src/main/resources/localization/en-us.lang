@@ -17,6 +17,8 @@ management:
   guildPrefixCommandDescription: "Sets or gets a guild prefix"
   languageFilesReset: "`{$1$}` language files have been reset!"
   languageFilesUpdated: "`{$1$}` language files have been updated!"
+  languageFilesResetAll: "Language files have been reset!"
+  languageFilesUpdatedAll: "Language files have been updated!"
   globalLanguageSet: "Set global language to `{$1$}`"
   globalLanguage: "The current global language is `{$1$}`"
   languageCommandDescription: "Global bot language management"
